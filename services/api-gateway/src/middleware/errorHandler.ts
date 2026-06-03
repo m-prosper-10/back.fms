@@ -11,10 +11,9 @@ export function errorHandler(
 ) {
   if (error instanceof AppError) {
     res.status(error.statusCode).json({
-      error: {
-        message: error.message,
-        details: error.details ?? null
-      }
+      success: false,
+      message: error.message,
+      details: error.details ?? null
     });
     return;
   }
@@ -22,8 +21,7 @@ export function errorHandler(
   logger.error(error.message, error);
 
   res.status(500).json({
-    error: {
-      message: env.nodeEnv === "production" ? "Internal server error" : error.message
-    }
+    success: false,
+    message: env.nodeEnv === "production" ? "Internal server error" : error.message
   });
 }

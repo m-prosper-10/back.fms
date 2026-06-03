@@ -11,6 +11,7 @@ const echoSchema = z.object({
 
 export async function listExamples(_req: Request, res: Response) {
   res.status(200).json({
+    success: true,
     data: {
       service: exampleService.describe(),
       databases: databaseService.list(),
@@ -28,6 +29,7 @@ export function echoMessage(req: Request, res: Response, next: NextFunction) {
   }
 
   res.status(200).json({
+    success: true,
     data: exampleService.echo(result.data.message)
   });
 }

@@ -1,5 +1,5 @@
 import { Express } from "express";
-import { createServiceApp } from "../../../shared/http/createServiceApp";
+import { createServiceApp } from "../../../../shared/http/createServiceApp";
 import { env } from "./config/env";
 import { inspectionServiceRouter } from "./routes";
 

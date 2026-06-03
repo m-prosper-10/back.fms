@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { AppError } from "../../../shared/lib/httpError";
+import { AppError } from "../../../../shared/lib/httpError";
 import { UserRole } from "../modules/inspections/inspection.types";
 
 export function authorize(...allowedRoles: UserRole[]) {

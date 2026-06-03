@@ -39,6 +39,6 @@ maintenanceRouter.get("/meta", authenticate, authorize("admin", "inspector"), ge
 maintenanceRouter.post("/", authenticate, authorize("admin", "inspector"), createMaintenance);
 maintenanceRouter.get("/", authenticate, listMaintenance);
 maintenanceRouter.get("/extinguisher/:extinguisherId", authenticate, maintenanceByExtinguisher);
+maintenanceRouter.get("/:id", authenticate, getMaintenanceById);
 maintenanceRouter.patch("/:id", authenticate, authorize("admin", "inspector"), updateMaintenance);
 maintenanceRouter.delete("/:id", authenticate, authorize("admin", "inspector"), removeMaintenance);
-maintenanceRouter.get("/:id", authenticate, getMaintenanceById);

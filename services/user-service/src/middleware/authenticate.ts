@@ -23,7 +23,7 @@ export function authenticate(req: Request, _res: Response, next: NextFunction) {
   const token = header.slice(7);
 
   try {
-    const payload = jwt.verify(token, env.raw.JWT_ACCESS_SECRET) as AccessTokenPayload;
+    const payload = jwt.verify(token, env.raw.JWT_ACCESS_SECRET) as unknown as AccessTokenPayload;
 
     if (payload.tokenType !== "access") {
       throw new Error("Invalid token type");

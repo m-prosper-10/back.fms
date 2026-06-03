@@ -39,6 +39,7 @@ The root `.env.example` documents the shared defaults and service port map. Over
 `auth-service` also requires `MONGODB_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, and `PASSWORD_RESET_TOKEN_SECRET`.
 `inspection-service` requires `MONGODB_URL` and `JWT_ACCESS_SECRET`.
 `reporting-service` requires `MONGODB_URL` and `JWT_ACCESS_SECRET`.
+`notification-service` requires `MONGODB_URL` and `JWT_ACCESS_SECRET`.
 
 ## Development
 
@@ -69,7 +70,7 @@ npm run build
 - `services/extinguisher-service/src` is the inventory service scaffold.
 - `services/inspection-service/src` is the inspection and maintenance service scaffold.
 - `services/reporting-service/src` is the reporting and export service.
-- `services/notification-service/src` is the notification service scaffold.
+- `services/notification-service/src` is the notification delivery and in-app inbox service.
 
 ### Auth Service
 
@@ -152,3 +153,16 @@ npm run build
 - `GET /api/reports/maintenance/recent`
 - `GET /api/reports/export/pdf`
 - `GET /api/reports/export/csv`
+
+### Notification Service
+
+- `GET /api/health`
+- `GET /api/notifications/meta`
+- `POST /api/notifications/send`
+- `GET /api/notifications`
+- `GET /api/notifications/:id`
+- `PATCH /api/notifications/:id/read`
+- `PATCH /api/notifications/:id`
+- `DELETE /api/notifications/:id`
+- `GET /api/notifications/type/:type`
+- `GET /api/notifications/user/:userId`

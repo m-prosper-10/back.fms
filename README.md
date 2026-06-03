@@ -94,3 +94,15 @@ npm run build
 - `DELETE /api/users/:id`
 - `PATCH /api/users/:id/role`
 - `PATCH /api/users/:id/status`
+
+### Extinguisher Service
+
+- `GET /api/health`
+- `GET /api/extinguishers/meta`
+- `GET /api/extinguishers`
+- `GET /api/extinguishers/:id`
+- `POST /api/extinguishers`
+- `PATCH /api/extinguishers/:id`
+- `DELETE /api/extinguishers/:id`
+- `GET /api/extinguishers/status/:status`
+- `GET /api/extinguishers/location/:location`

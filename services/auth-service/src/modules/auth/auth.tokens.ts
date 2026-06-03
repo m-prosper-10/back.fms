@@ -8,6 +8,7 @@ export interface AccessTokenPayload extends JwtPayload {
   userId: string;
   email: string;
   role: UserRole;
+  status: "active" | "inactive" | "suspended";
   tokenType: "access";
 }
 
@@ -36,6 +37,7 @@ export function createAccessToken(user: AuthenticatedUser) {
       userId: user.id,
       email: user.email,
       role: user.role,
+      status: user.status,
       tokenType: "access"
     },
     env.raw.JWT_ACCESS_SECRET,

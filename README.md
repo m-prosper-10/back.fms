@@ -80,3 +80,17 @@ npm run build
 - `POST /api/auth/forgot-password`
 - `POST /api/auth/reset-password`
 - `GET /api/auth/validate-token`
+
+### User Service
+
+- `GET /api/health`
+- `GET /api/users/meta`
+- `GET /api/users`
+- `GET /api/users/me`
+- `PATCH /api/users/me`
+- `PATCH /api/users/change-password`
+- `GET /api/users/:id`
+- `PATCH /api/users/:id`
+- `DELETE /api/users/:id`
+- `PATCH /api/users/:id/role`
+- `PATCH /api/users/:id/status`

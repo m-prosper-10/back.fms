@@ -7,7 +7,6 @@ import {
   getMe,
   getUserByIdHandler,
   getUserModuleMeta,
-  getUserModuleStatus,
   listUsersHandler,
   updateMe,
   updateUserByIdHandler,

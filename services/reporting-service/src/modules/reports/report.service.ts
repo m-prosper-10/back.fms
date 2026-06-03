@@ -15,10 +15,7 @@ import {
   ComplianceReport,
   DashboardReport,
   DateRange,
-  ExportFormat,
   ExportReport,
-  ExtinguisherDocument,
-  ExtinguisherReportEntry,
   InspectionReport,
   InspectionStatus,
   MaintenanceReport,
@@ -211,11 +208,34 @@ export const reportService = {
     } satisfies InspectionReport;
   },
 
+  async getOverdueInspectionSummary(range?: DateRange) {
+    ensureRange(range);
+
+    const match = {
+      ...buildOverdueInspectionMatch(),
+      ...createDateRangeMatch("inspectionDate", range)
+    };
+
+    const [totalInspections, byStatus, byResult, recentInspections] = await Promise.all([
+      countInspections(match),
+      aggregateInspectionsBy("status", match),
+      aggregateInspectionsBy("result", match),
+      listInspections(match, { limit: 10, sort: { inspectionDate: -1 } })
+    ]);
+
+    return {
+      totalInspections,
+      byStatus,
+      byResult,
+      recentInspections
+    } satisfies InspectionReport;
+  },
+
   async getCompliance() {
     const now = new Date();
     const in30Days = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
 
-    const [totalExtinguishers, expiredExtinguishers, expiringWithin30Days, compliantExtinguishers, overdueInspections, upcomingExpirations] =
+    const [totalExtinguishers, expiredExtinguishers, expiringWithin30Days, compliantExtinguishers, overdueInspections, expiredExtinguishersList, upcomingExpirations] =
       await Promise.all([
         countExtinguishers(activeMatch()),
         countExtinguishers({ ...activeMatch(), expiryDate: { $lt: now } }),
@@ -226,6 +246,13 @@ export const reportService = {
           expiryDate: { $gte: now }
         }),
         countInspections(buildOverdueInspectionMatch()),
+        listExtinguishers(
+          {
+            ...activeMatch(),
+            expiryDate: { $lt: now }
+          },
+          { limit: 20, sort: { expiryDate: 1 } }
+        ),
         listExtinguishers(
           {
             ...activeMatch(),
@@ -241,6 +268,7 @@ export const reportService = {
       expiringWithin30Days,
       compliantExtinguishers,
       overdueInspections,
+      expiredExtinguishersList,
       upcomingExpirations
     } satisfies ComplianceReport;
   },

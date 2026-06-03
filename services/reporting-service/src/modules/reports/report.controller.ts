@@ -141,7 +141,7 @@ export async function completedInspections(req: Request, res: Response, next: Ne
 export async function overdueInspections(req: Request, res: Response, next: NextFunction) {
   try {
     requireUser(req);
-    const data = await reportService.getInspectionByStatus("overdue", parseRange(req.query));
+    const data = await reportService.getOverdueInspectionSummary(parseRange(req.query));
     res.status(200).json({ success: true, data });
   } catch (error) {
     next(error);
@@ -170,7 +170,7 @@ export async function expiredCompliance(req: Request, res: Response, next: NextF
         expiringWithin30Days: data.expiringWithin30Days,
         compliantExtinguishers: data.compliantExtinguishers,
         overdueInspections: data.overdueInspections,
-        upcomingExpirations: data.upcomingExpirations.filter((item) => item.status === "expired")
+        expiredExtinguishersList: data.expiredExtinguishersList
       }
     });
   } catch (error) {
@@ -190,7 +190,7 @@ export async function upcomingExpirations(req: Request, res: Response, next: Nex
         expiringWithin30Days: data.expiringWithin30Days,
         compliantExtinguishers: data.compliantExtinguishers,
         overdueInspections: data.overdueInspections,
-        upcomingExpirations: data.upcomingExpirations.filter((item) => item.expiryDate >= new Date())
+        upcomingExpirations: data.upcomingExpirations
       }
     });
   } catch (error) {

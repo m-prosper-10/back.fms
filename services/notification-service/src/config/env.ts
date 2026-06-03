@@ -8,9 +8,8 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(4006),
   APP_NAME: z.string().min(1).default("notification-service"),
   ALLOWED_ORIGINS: z.string().default("http://localhost:5173"),
-  MONGODB_URL: z.string().optional(),
-  REDIS_URL: z.string().optional(),
-  JWT_SECRET: z.string().optional()
+  MONGODB_URL: z.string().min(1),
+  JWT_ACCESS_SECRET: z.string().min(1)
 });
 
 const parsed = envSchema.parse(process.env);

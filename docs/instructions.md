@@ -23,7 +23,7 @@ Architecture: **microservices monorepo**
 - `services/auth-service/src` owns authentication flows and MongoDB session storage.
 - `services/user-service/src` owns user management.
 - `services/extinguisher-service/src` owns extinguisher inventory and status tracking.
-- `services/inspection-service/src` owns inspections and maintenance.
+- `services/inspection-service/src` owns inspection scheduling, completion, maintenance logging, and overdue inspection detection.
 - `services/reporting-service/src` owns reporting endpoints.
 - `services/notification-service/src` owns notification endpoints.
 - `shared/` holds cross-service helpers and middleware.

@@ -1,6 +1,6 @@
 import { Collection, Db, MongoClient, ObjectId } from "mongodb";
-import { AppError } from "../../../shared/lib/httpError";
-import { logger } from "../../../shared/lib/logger";
+import { AppError } from "../../../../shared/lib/httpError";
+import { logger } from "../../../../shared/lib/logger";
 import { env } from "./env";
 import {
   InspectionDocument,

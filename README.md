@@ -37,6 +37,7 @@ cp .env.example .env
 The root `.env.example` documents the shared defaults and service port map. Override `PORT` and `APP_NAME` per service when running them independently.
 
 `auth-service` also requires `MONGODB_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, and `PASSWORD_RESET_TOKEN_SECRET`.
+`inspection-service` requires `MONGODB_URL` and `JWT_ACCESS_SECRET`.
 
 ## Development
 

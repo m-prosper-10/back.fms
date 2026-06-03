@@ -1,6 +1,6 @@
 # fms_backend
 
-Production baseline General business API
+Production baseline microservices monorepo for a general business backend.
 
 ## Scaffold Summary
 
@@ -10,11 +10,22 @@ Production baseline General business API
 - Logging: morgan
 - Monitoring: prometheus-ready
 - Security preset: bcrypt password hashing + JWT issuance
+- Architecture: microservices in a monorepo
 
 ## Selected Databases
 
 - MongoDB
 - Redis
+
+## Services
+
+- `services/api-gateway` - `4000`
+- `services/auth-service` - `4001`
+- `services/user-service` - `4002`
+- `services/extinguisher-service` - `4003`
+- `services/inspection-service` - `4004`
+- `services/reporting-service` - `4005`
+- `services/notification-service` - `4006`
 
 ## Setup
 
@@ -29,6 +40,13 @@ cp .env.example .env
 npm run dev
 ```
 
+Run a specific service with:
+
+```bash
+npm run dev:auth-service
+npm run dev:inspection-service
+```
+
 ## Quality Checks
 
 ```bash
@@ -39,6 +57,10 @@ npm run build
 
 ## API Endpoints
 
-- `GET /api/health`
-- `GET /api/v1/examples`
-- `POST /api/v1/examples/echo`
+- `services/api-gateway/src` contains the current gateway scaffold.
+- `services/auth-service/src` is the first domain service scaffold.
+- `services/user-service/src` is the user-management service scaffold.
+- `services/extinguisher-service/src` is the inventory service scaffold.
+- `services/inspection-service/src` is the inspection and maintenance service scaffold.
+- `services/reporting-service/src` is the reporting service scaffold.
+- `services/notification-service/src` is the notification service scaffold.

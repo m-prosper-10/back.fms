@@ -8,9 +8,13 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(4001),
   APP_NAME: z.string().min(1).default("auth-service"),
   ALLOWED_ORIGINS: z.string().default("http://localhost:5173"),
-  MONGODB_URL: z.string().optional(),
-  REDIS_URL: z.string().optional(),
-  JWT_SECRET: z.string().optional()
+  MONGODB_URL: z.string().min(1),
+  JWT_ACCESS_SECRET: z.string().min(1),
+  JWT_REFRESH_SECRET: z.string().min(1),
+  PASSWORD_RESET_TOKEN_SECRET: z.string().min(1),
+  ACCESS_TOKEN_EXPIRES_IN: z.string().default("15m"),
+  REFRESH_TOKEN_EXPIRES_IN: z.string().default("7d"),
+  PASSWORD_RESET_TOKEN_EXPIRES_IN: z.string().default("1h")
 });
 
 const parsed = envSchema.parse(process.env);

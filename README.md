@@ -36,6 +36,8 @@ cp .env.example .env
 
 The root `.env.example` documents the shared defaults and service port map. Override `PORT` and `APP_NAME` per service when running them independently.
 
+`auth-service` also requires `MONGODB_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, and `PASSWORD_RESET_TOKEN_SECRET`.
+
 ## Development
 
 ```bash
@@ -66,3 +68,15 @@ npm run build
 - `services/inspection-service/src` is the inspection and maintenance service scaffold.
 - `services/reporting-service/src` is the reporting service scaffold.
 - `services/notification-service/src` is the notification service scaffold.
+
+### Auth Service
+
+- `GET /api/health`
+- `GET /api/auth`
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `POST /api/auth/refresh-token`
+- `POST /api/auth/forgot-password`
+- `POST /api/auth/reset-password`
+- `GET /api/auth/validate-token`

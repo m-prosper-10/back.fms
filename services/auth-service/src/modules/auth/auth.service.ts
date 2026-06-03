@@ -1,10 +1,8 @@
 import bcrypt from "bcrypt";
-import { AppError } from "../../../../shared/lib/httpError";
+import { AppError } from "../../../../../shared/lib/httpError";
 import { env } from "../../config/env";
 import { toObjectId } from "../../config/database";
 import {
-  createPasswordResetToken,
-  createRefreshToken,
   createUser,
   findPasswordResetTokenByHash,
   findRefreshTokenByHash,
@@ -13,6 +11,8 @@ import {
   markPasswordResetTokenUsed,
   revokeAllRefreshTokensForUser,
   revokeRefreshToken,
+  storePasswordResetToken,
+  storeRefreshToken,
   updateUserLastLoginAt,
   updateUserPassword
 } from "./auth.repository";
@@ -79,7 +79,7 @@ async function issueTokens(user: AuthenticatedUser): Promise<TokenPair> {
   const accessToken = createAccessToken(user);
   const refreshTokenData = buildRefreshToken(user);
 
-  await createRefreshToken({
+  await storeRefreshToken({
     userId: toObjectId(user.id),
     tokenHash: refreshTokenData.tokenHash,
     jti: refreshTokenData.jti,
@@ -242,7 +242,7 @@ export const authService = {
     const resetTokenData = createResetToken(publicUser);
     const now = new Date();
 
-    await createPasswordResetToken({
+    await storePasswordResetToken({
       userId: user._id,
       tokenHash: resetTokenData.tokenHash,
       revokedAt: null,

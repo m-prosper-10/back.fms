@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { AppError } from "../../../../../shared/lib/httpError";
 import { env } from "../../config/env";
 import { AuthenticatedUser, UserRole } from "./auth.types";
 
@@ -94,13 +95,25 @@ export function createResetToken(user: AuthenticatedUser) {
 }
 
 export function verifyAccessToken(token: string) {
-  return jwt.verify(token, env.raw.JWT_ACCESS_SECRET) as AccessTokenPayload;
+  try {
+    return jwt.verify(token, env.raw.JWT_ACCESS_SECRET) as AccessTokenPayload;
+  } catch {
+    throw new AppError(401, "Invalid or expired access token");
+  }
 }
 
 export function verifyRefreshToken(token: string) {
-  return jwt.verify(token, env.raw.JWT_REFRESH_SECRET) as RefreshTokenPayload;
+  try {
+    return jwt.verify(token, env.raw.JWT_REFRESH_SECRET) as RefreshTokenPayload;
+  } catch {
+    throw new AppError(401, "Invalid or expired refresh token");
+  }
 }
 
 export function verifyResetToken(token: string) {
-  return jwt.verify(token, env.raw.PASSWORD_RESET_TOKEN_SECRET) as ResetTokenPayload;
+  try {
+    return jwt.verify(token, env.raw.PASSWORD_RESET_TOKEN_SECRET) as ResetTokenPayload;
+  } catch {
+    throw new AppError(401, "Invalid or expired reset token");
+  }
 }

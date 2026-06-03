@@ -56,7 +56,7 @@ This single command does the full local startup:
 - waits for the database ports and service health endpoints to respond before declaring the stack ready
 - logs a warning and continues if Redis is not available yet
 
-Each service also exposes OpenAPI docs at `/api-docs`, with the raw spec at `/openapi.json`:
+Each service also exposes Swagger UI at `/api-docs`, with the raw OpenAPI spec at `/openapi.json`:
 
 - `http://localhost:4000/api-docs`
 - `http://localhost:4001/api-docs`
@@ -214,4 +214,4 @@ npm run build
 
 ## API Documentation
 
-The gateway and each backend service serve a browser-rendered contract page at `/api-docs` and raw OpenAPI JSON at `/openapi.json`.
+The gateway and each backend service serve Swagger UI at `/api-docs` and raw OpenAPI JSON at `/openapi.json`.

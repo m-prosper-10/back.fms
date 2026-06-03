@@ -10,6 +10,18 @@ export function createApp() {
     serviceName: env.appName,
     nodeEnv: env.nodeEnv,
     allowedOrigins: env.allowedOrigins,
+    beforeRoutes(app: Express) {
+      app.disable("etag");
+      app.use((req, res, next) => {
+        if (req.path.startsWith("/api/reports")) {
+          res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+          res.setHeader("Pragma", "no-cache");
+          res.setHeader("Expires", "0");
+        }
+
+        next();
+      });
+    },
     registerRoutes(app: Express) {
       app.use("/", createOpenApiRouter(reportingOpenApiDocument));
       app.use("/api", reportingServiceRouter);

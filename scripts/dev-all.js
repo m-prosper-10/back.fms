@@ -1,7 +1,6 @@
 const { spawn } = require("child_process");
 const net = require("net");
 const path = require("path");
-const fs = require("fs");
 
 const ROOT = path.resolve(__dirname, "..");
 const PORTS = [
@@ -19,6 +18,18 @@ const SERVICES = [
 ];
 
 const children = [];
+
+process.env.MONGODB_URL = process.env.MONGODB_URL || "mongodb://127.0.0.1:27017/fms_backend";
+process.env.JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || "dev-access-secret";
+process.env.JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "dev-refresh-secret";
+process.env.PASSWORD_RESET_TOKEN_SECRET = process.env.PASSWORD_RESET_TOKEN_SECRET || "dev-reset-secret";
+process.env.AUTH_SERVICE_URL = process.env.AUTH_SERVICE_URL || "http://localhost:4001";
+process.env.USER_SERVICE_URL = process.env.USER_SERVICE_URL || "http://localhost:4002";
+process.env.EXTINGUISHER_SERVICE_URL = process.env.EXTINGUISHER_SERVICE_URL || "http://localhost:4003";
+process.env.INSPECTION_SERVICE_URL = process.env.INSPECTION_SERVICE_URL || "http://localhost:4004";
+process.env.REPORTING_SERVICE_URL = process.env.REPORTING_SERVICE_URL || "http://localhost:4005";
+process.env.NOTIFICATION_SERVICE_URL = process.env.NOTIFICATION_SERVICE_URL || "http://localhost:4006";
+process.env.TS_NODE_FILES = process.env.TS_NODE_FILES || "true";
 
 function log(message) {
   process.stdout.write(`${message}\n`);

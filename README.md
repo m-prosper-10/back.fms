@@ -35,6 +35,7 @@ cp .env.example .env
 ```
 
 The root `.env.example` documents the shared defaults and service port map. Override `PORT` and `APP_NAME` per service when running them independently.
+For local development, `npm run dev` seeds sane defaults for the required service secrets and service URLs if your `.env` is missing.
 MongoDB is expected to be running locally on `mongodb://localhost:27017`.
 Redis is optional during development; the stack continues without it.
 

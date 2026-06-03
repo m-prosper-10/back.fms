@@ -9,6 +9,7 @@ export interface CreateServiceAppOptions {
   serviceName: string;
   nodeEnv: "development" | "test" | "production";
   allowedOrigins: string[];
+  beforeRoutes?: (app: Express) => void;
   registerRoutes: (app: Express) => void;
 }
 
@@ -16,6 +17,7 @@ export function createServiceApp({
   serviceName,
   nodeEnv,
   allowedOrigins,
+  beforeRoutes,
   registerRoutes
 }: CreateServiceAppOptions) {
   const app = express();
@@ -40,6 +42,7 @@ export function createServiceApp({
     });
   });
 
+  beforeRoutes?.(app);
   registerRoutes(app);
 
   app.use(notFoundHandler);

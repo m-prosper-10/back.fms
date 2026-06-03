@@ -106,3 +106,24 @@ npm run build
 - `DELETE /api/extinguishers/:id`
 - `GET /api/extinguishers/status/:status`
 - `GET /api/extinguishers/location/:location`
+
+### Inspection Service
+
+- `GET /api/health`
+- `GET /api/inspections/meta`
+- `POST /api/inspections`
+- `GET /api/inspections`
+- `GET /api/inspections/:id`
+- `PATCH /api/inspections/:id`
+- `DELETE /api/inspections/:id`
+- `PATCH /api/inspections/:id/complete`
+- `GET /api/inspections/status/:status`
+- `GET /api/inspections/overdue`
+- `GET /api/inspections/extinguisher/:extinguisherId`
+- `GET /api/maintenance/meta`
+- `POST /api/maintenance`
+- `GET /api/maintenance`
+- `GET /api/maintenance/:id`
+- `PATCH /api/maintenance/:id`
+- `DELETE /api/maintenance/:id`
+- `GET /api/maintenance/extinguisher/:extinguisherId`

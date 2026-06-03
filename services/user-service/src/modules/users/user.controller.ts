@@ -12,6 +12,7 @@ import {
   updateUserRole,
   updateUserStatus
 } from "./user.repository";
+import { userService } from "./user.service";
 
 function parseUserId(id: string) {
   const result = userIdParamSchema.safeParse({ id });
@@ -56,10 +57,7 @@ export async function getUserModuleStatus(_req: Request, res: Response) {
 export async function getUserModuleMeta(_req: Request, res: Response) {
   res.status(200).json({
     success: true,
-    data: {
-      module: "users",
-      status: "ready"
-    }
+    data: userService.describe()
   });
 }
 

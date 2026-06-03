@@ -2,7 +2,7 @@ export const userService = {
   describe() {
     return {
       module: "users",
-      status: "scaffold",
+      status: "ready",
       responsibilities: ["profile", "listing", "roles", "account-status"]
     };
   }

@@ -81,16 +81,6 @@ export function buildDateRangeFilter(field: string, range?: DateRange): Filter<R
   return { [field]: filter } as Filter<Record<string, unknown>>;
 }
 
-type DateFilter = {
-  $gte?: Date;
-  $lte?: Date;
-};
-
-function buildDateRangePredicate(field: string, range?: DateRange): Filter<Record<string, unknown>> {
-  const filter = buildDateRangeFilter(field, range);
-  return filter;
-}
-
 export async function countExtinguishers(match: Filter<ExtinguisherDocument> = {}) {
   return collections().fireExtinguishers.countDocuments(match);
 }

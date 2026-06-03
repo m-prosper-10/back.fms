@@ -1,0 +1,151 @@
+const { spawn } = require("child_process");
+const net = require("net");
+const path = require("path");
+const fs = require("fs");
+
+const ROOT = path.resolve(__dirname, "..");
+const PORTS = [
+  { host: "127.0.0.1", port: 27017, name: "mongodb" },
+  { host: "127.0.0.1", port: 6379, name: "redis" }
+];
+
+const SERVICES = [
+  "dev:api-gateway",
+  "dev:auth-service",
+  "dev:user-service",
+  "dev:extinguisher-service",
+  "dev:inspection-service",
+  "dev:reporting-service",
+  "dev:notification-service"
+];
+
+const children = [];
+
+function log(message) {
+  process.stdout.write(`${message}\n`);
+}
+
+function run(command, args, options = {}) {
+  const child = spawn(command, args, {
+    cwd: ROOT,
+    stdio: "inherit",
+    shell: false,
+    env: process.env,
+    ...options
+  });
+
+  children.push(child);
+  return child;
+}
+
+function waitForPort({ host, port, name }, timeoutMs = 120_000) {
+  return new Promise((resolve, reject) => {
+    const start = Date.now();
+
+    const attempt = () => {
+      const socket = net.connect(port, host);
+
+      socket.on("connect", () => {
+        socket.end();
+        resolve();
+      });
+
+      socket.on("error", () => {
+        socket.destroy();
+        if (Date.now() - start > timeoutMs) {
+          reject(new Error(`Timed out waiting for ${name} on ${host}:${port}`));
+          return;
+        }
+
+        setTimeout(attempt, 1000);
+      });
+    };
+
+    attempt();
+  });
+}
+
+function waitForUrl(url, timeoutMs = 120_000) {
+  return new Promise((resolve, reject) => {
+    const start = Date.now();
+
+    const attempt = async () => {
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          resolve();
+          return;
+        }
+      } catch {
+        // keep retrying
+      }
+
+      if (Date.now() - start > timeoutMs) {
+        reject(new Error(`Timed out waiting for ${url}`));
+        return;
+      }
+
+      setTimeout(attempt, 1000);
+    };
+
+    attempt();
+  });
+}
+
+async function main() {
+  if (!fs.existsSync(path.join(ROOT, "docker-compose.yml"))) {
+    throw new Error("docker-compose.yml is missing");
+  }
+
+  log("Starting infrastructure with Docker Compose...");
+  run("docker", ["compose", "up", "-d", "mongodb", "redis"]);
+
+  for (const port of PORTS) {
+    log(`Waiting for ${port.name} on ${port.host}:${port.port}...`);
+    await waitForPort(port);
+  }
+
+  log("Starting services...");
+  for (const script of SERVICES) {
+    run("npm", ["run", script]);
+  }
+
+  const readyChecks = [
+    "http://localhost:4000/api/health",
+    "http://localhost:4001/api/health",
+    "http://localhost:4002/api/health",
+    "http://localhost:4003/api/health",
+    "http://localhost:4004/api/health",
+    "http://localhost:4005/api/health",
+    "http://localhost:4006/api/health"
+  ];
+
+  log("Waiting for service health checks...");
+  for (const url of readyChecks) {
+    log(`  ${url}`);
+    await waitForUrl(url);
+  }
+
+  log("Backend stack is ready.");
+  log("Gateway: http://localhost:4000");
+}
+
+function shutdown(signal) {
+  log(`Received ${signal}; shutting down services...`);
+  for (const child of children) {
+    try {
+      child.kill(signal);
+    } catch {
+      // ignore
+    }
+  }
+  process.exit(0);
+}
+
+process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

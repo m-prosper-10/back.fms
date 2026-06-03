@@ -9,7 +9,9 @@ const envSchema = z.object({
   APP_NAME: z.string().min(1).default("inspection-service"),
   ALLOWED_ORIGINS: z.string().default("http://localhost:5173"),
   MONGODB_URL: z.string().min(1),
-  JWT_ACCESS_SECRET: z.string().min(1)
+  JWT_ACCESS_SECRET: z.string().min(1),
+  NOTIFICATION_SERVICE_URL: z.string().default("http://localhost:4006"),
+  INTERNAL_SERVICE_TOKEN: z.string().min(1).default("dev-internal-token")
 });
 
 const parsed = envSchema.parse(process.env);
@@ -19,5 +21,7 @@ export const env = {
   port: parsed.PORT,
   appName: parsed.APP_NAME,
   allowedOrigins: parsed.ALLOWED_ORIGINS.split(",").map((origin) => origin.trim()),
+  notificationServiceUrl: parsed.NOTIFICATION_SERVICE_URL,
+  internalServiceToken: parsed.INTERNAL_SERVICE_TOKEN,
   raw: parsed
 };

@@ -1,4 +1,5 @@
 import { AppError } from "../../../../../shared/lib/httpError";
+import { env } from "../../config/env";
 import { toObjectId } from "../../config/database";
 import {
   createInspection,
@@ -103,6 +104,34 @@ function ensureViewPermission(role: UserRole) {
   }
 }
 
+type NotificationPayload = {
+  userId: string;
+  title: string;
+  message: string;
+  type: "inspection" | "maintenance" | "expiry" | "system";
+};
+
+async function pushNotification(payload: NotificationPayload) {
+  try {
+    const response = await fetch(`${env.notificationServiceUrl}/api/notifications/internal/send`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-internal-token": env.internalServiceToken
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      return false;
+    }
+
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export const inspectionService = {
   async schedule(input: ScheduleInspectionInput, scheduledBy: string, role: UserRole) {
     ensureSchedulePermission(role);
@@ -129,6 +158,22 @@ export const inspectionService = {
 
     if (!created) {
       throw new AppError(500, "Failed to create inspection");
+    }
+
+    void pushNotification({
+      userId: input.assignedInspectorId,
+      title: "New inspection assigned",
+      message: `An inspection has been scheduled for extinguisher ${input.extinguisherId} on ${input.inspectionDate.toISOString().slice(0, 10)} at ${input.inspectionTime}.`,
+      type: "inspection"
+    });
+
+    if (scheduledBy !== input.assignedInspectorId) {
+      void pushNotification({
+        userId: scheduledBy,
+        title: "Inspection scheduled",
+        message: `Your inspection request for extinguisher ${input.extinguisherId} has been scheduled.`,
+        type: "inspection"
+      });
     }
 
     return created;
@@ -206,6 +251,13 @@ export const inspectionService = {
       throw new AppError(404, "Inspection not found");
     }
 
+    void pushNotification({
+      userId: inspection.scheduledBy.toHexString(),
+      title: "Inspection completed",
+      message: `Inspection ${id} has been completed with result ${input.result}.`,
+      type: "inspection"
+    });
+
     return updated;
   },
 
@@ -241,6 +293,18 @@ export const inspectionService = {
 
     if (!created) {
       throw new AppError(500, "Failed to create maintenance log");
+    }
+
+    const relatedInspections = await listInspectionsByExtinguisher(toObjectId(input.extinguisherId));
+    const latestInspection = relatedInspections[relatedInspections.length - 1];
+
+    if (latestInspection) {
+      void pushNotification({
+        userId: latestInspection.scheduledBy,
+        title: "Maintenance recorded",
+        message: `Maintenance was logged for extinguisher ${input.extinguisherId}: ${input.actionTaken}.`,
+        type: "maintenance"
+      });
     }
 
     return created;

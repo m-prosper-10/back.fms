@@ -14,6 +14,6 @@
     "ignoreDeprecations": "6.0",
     "types": ["node", "jest"]
   },
-  "include": ["services/**/*.ts", "shared/**/*"],
+  "include": ["services/**/*", "shared/**/*"],
   "exclude": ["node_modules", "dist", "**/__tests__/**"]
 }

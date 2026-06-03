@@ -56,6 +56,16 @@ This single command does the full local startup:
 - waits for the database ports and service health endpoints to respond before declaring the stack ready
 - logs a warning and continues if Redis is not available yet
 
+Each service also exposes OpenAPI docs at `/api-docs`, with the raw spec at `/openapi.json`:
+
+- `http://localhost:4000/api-docs`
+- `http://localhost:4001/api-docs`
+- `http://localhost:4002/api-docs`
+- `http://localhost:4003/api-docs`
+- `http://localhost:4004/api-docs`
+- `http://localhost:4005/api-docs`
+- `http://localhost:4006/api-docs`
+
 If you want Redis for future notification/reporting work, run it separately with Docker Compose:
 
 ```bash
@@ -201,3 +211,7 @@ npm run build
 - `DELETE /api/notifications/:id`
 - `GET /api/notifications/type/:type`
 - `GET /api/notifications/user/:userId`
+
+## API Documentation
+
+The gateway and each backend service serve a browser-rendered contract page at `/api-docs` and raw OpenAPI JSON at `/openapi.json`.

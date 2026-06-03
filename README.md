@@ -47,12 +47,27 @@ The root `.env.example` documents the shared defaults and service port map. Over
 npm run dev
 ```
 
+This single command does the full local startup:
+- starts MongoDB and Redis with Docker Compose
+- starts `api-gateway`, `auth-service`, `user-service`, `extinguisher-service`, `inspection-service`, `reporting-service`, and `notification-service`
+- waits for the database ports and service health endpoints to respond before declaring the stack ready
+
 Run a specific service with:
 
 ```bash
 npm run dev:auth-service
 npm run dev:inspection-service
+npm run dev:api-gateway
 ```
+
+The gateway exposes the backend surface at:
+- `/api/auth`
+- `/api/users`
+- `/api/extinguishers`
+- `/api/inspections`
+- `/api/maintenance`
+- `/api/reports`
+- `/api/notifications`
 
 ## Quality Checks
 
@@ -65,6 +80,7 @@ npm run build
 ## API Endpoints
 
 - `services/api-gateway/src` contains the current gateway scaffold.
+- `services/api-gateway/src` is the single frontend-facing entry point and reverse-proxies the service APIs.
 - `services/auth-service/src` is the first domain service scaffold.
 - `services/user-service/src` is the user-management service scaffold.
 - `services/extinguisher-service/src` is the inventory service scaffold.

@@ -70,6 +70,14 @@ npm run dev:inspection-service
 npm run dev:api-gateway
 ```
 
+Seed development users with role coverage:
+
+```bash
+npm run seed:users
+```
+
+The seed script creates `test_admin1@gmail.com`, `test_inspector1@gmail.com`, and `test_use1@gmail.com` unless those accounts already exist.
+
 The gateway exposes the backend surface at:
 - `/api/auth`
 - `/api/users`
@@ -114,6 +122,7 @@ npm run build
 
 - `GET /api/health`
 - `GET /api/users/meta`
+- `POST /api/users`
 - `GET /api/users`
 - `GET /api/users/me`
 - `PATCH /api/users/me`

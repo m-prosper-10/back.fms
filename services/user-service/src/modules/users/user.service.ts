@@ -3,7 +3,7 @@ export const userService = {
     return {
       module: "users",
       status: "ready",
-      responsibilities: ["profile", "listing", "roles", "account-status"]
+      responsibilities: ["profile", "listing", "creation", "roles", "account-status"]
     };
   }
 };

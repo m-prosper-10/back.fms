@@ -1,13 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { AppError } from "../../../../shared/lib/httpError";
+import { AppError } from "../../../../../shared/lib/httpError";
 import { toObjectId } from "../../config/database";
 import { changePasswordSchema, roleSchema, statusSchema, updateMeSchema, userIdParamSchema } from "./user.validation";
 import {
   changeUserPassword,
   deleteUser,
-  findUserByEmail,
-  findUserById,
   getUserProfile,
   listUsers,
   updateUserProfile,
@@ -40,6 +38,7 @@ export async function getUserModuleStatus(_req: Request, res: Response) {
       module: "users",
       status: "ready",
       endpoints: [
+        "GET /api/users/meta",
         "GET /api/users/me",
         "PATCH /api/users/me",
         "PATCH /api/users/change-password",
@@ -50,6 +49,16 @@ export async function getUserModuleStatus(_req: Request, res: Response) {
         "PATCH /api/users/:id/role",
         "PATCH /api/users/:id/status"
       ]
+    }
+  });
+}
+
+export async function getUserModuleMeta(_req: Request, res: Response) {
+  res.status(200).json({
+    success: true,
+    data: {
+      module: "users",
+      status: "ready"
     }
   });
 }

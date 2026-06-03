@@ -6,6 +6,7 @@ import {
   deleteUserHandler,
   getMe,
   getUserByIdHandler,
+  getUserModuleMeta,
   getUserModuleStatus,
   listUsersHandler,
   updateMe,
@@ -16,11 +17,11 @@ import {
 
 export const userRouter = Router();
 
-userRouter.get("/", getUserModuleStatus);
+userRouter.get("/meta", authenticate, authorize("admin"), getUserModuleMeta);
+userRouter.get("/", authenticate, authorize("admin"), listUsersHandler);
 userRouter.get("/me", authenticate, getMe);
 userRouter.patch("/me", authenticate, updateMe);
 userRouter.patch("/change-password", authenticate, changePassword);
-userRouter.get("/", authenticate, authorize("admin"), listUsersHandler);
 userRouter.get("/:id", authenticate, authorize("admin"), getUserByIdHandler);
 userRouter.patch("/:id", authenticate, authorize("admin"), updateUserByIdHandler);
 userRouter.delete("/:id", authenticate, authorize("admin"), deleteUserHandler);

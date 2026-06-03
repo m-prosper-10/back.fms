@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import { AppError } from "../../../shared/lib/httpError";
+import { AppError } from "../../../../shared/lib/httpError";
 import { env } from "../config/env";
 import { UserRole, UserStatus } from "../modules/users/user.types";
 
@@ -27,6 +27,10 @@ export function authenticate(req: Request, _res: Response, next: NextFunction) {
 
     if (payload.tokenType !== "access") {
       throw new Error("Invalid token type");
+    }
+
+    if (payload.status !== "active") {
+      throw new Error("Inactive account");
     }
 
     req.user = {

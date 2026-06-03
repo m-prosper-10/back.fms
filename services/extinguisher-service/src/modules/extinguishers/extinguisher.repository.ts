@@ -51,7 +51,12 @@ export async function listExtinguishers() {
     .sort({ createdAt: -1 })
     .toArray();
 
-  return extinguishers.map((item) => toPublicExtinguisher({ ...item, status: deriveStatus(item.expiryDate, item.status) }));
+  return extinguishers.map((item) =>
+    toPublicExtinguisher({
+      ...item,
+      status: deriveStatus(item.expiryDate, item.status) as ExtinguisherStatus
+    })
+  );
 }
 
 export async function findExtinguishersByStatus(status: ExtinguisherStatus) {
@@ -60,9 +65,17 @@ export async function findExtinguishersByStatus(status: ExtinguisherStatus) {
     .toArray();
 
   return extinguishers
-    .map((item) => ({ ...item, status: deriveStatus(item.expiryDate, item.status) }))
+    .map((item) => ({
+      ...item,
+      status: deriveStatus(item.expiryDate, item.status) as ExtinguisherStatus
+    }))
     .filter((item) => item.status === status)
-    .map(toPublicExtinguisher);
+    .map((item) =>
+      toPublicExtinguisher({
+        ...item,
+        status: item.status as ExtinguisherStatus
+      })
+    );
 }
 
 export async function findExtinguishersByLocation(location: string) {
@@ -71,7 +84,12 @@ export async function findExtinguishersByLocation(location: string) {
     .sort({ createdAt: -1 })
     .toArray();
 
-  return extinguishers.map((item) => toPublicExtinguisher({ ...item, status: deriveStatus(item.expiryDate, item.status) }));
+  return extinguishers.map((item) =>
+    toPublicExtinguisher({
+      ...item,
+      status: deriveStatus(item.expiryDate, item.status) as ExtinguisherStatus
+    })
+  );
 }
 
 export async function createExtinguisher(

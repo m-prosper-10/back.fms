@@ -158,8 +158,14 @@ export const inspectionService = {
     }
 
     const updated = await updateInspection(toObjectId(id), {
-      ...input,
-      status: input.status ?? undefined
+      ...(input.extinguisherId ? { extinguisherId: toObjectId(input.extinguisherId) } : {}),
+      ...(input.inspectionDate ? { inspectionDate: input.inspectionDate } : {}),
+      ...(input.inspectionTime ? { inspectionTime: input.inspectionTime } : {}),
+      ...(input.assignedInspectorId ? { assignedInspectorId: toObjectId(input.assignedInspectorId) } : {}),
+      ...(input.status ? { status: input.status } : {}),
+      ...(input.result ? { result: input.result } : {}),
+      ...(input.findings ? { findings: input.findings } : {}),
+      ...(input.notes ? { notes: input.notes } : {})
     });
 
     if (!updated) {
@@ -264,7 +270,11 @@ export const inspectionService = {
   async updateMaintenance(id: string, input: UpdateMaintenanceInput, role: UserRole) {
     ensureManagePermission(role);
     const updated = await updateMaintenanceLog(toObjectId(id), {
-      ...input
+      ...(input.extinguisherId ? { extinguisherId: toObjectId(input.extinguisherId) } : {}),
+      ...(input.actionTaken ? { actionTaken: input.actionTaken } : {}),
+      ...(input.maintenanceDate ? { maintenanceDate: input.maintenanceDate } : {}),
+      ...(input.issuesIdentified ? { issuesIdentified: input.issuesIdentified } : {}),
+      ...(input.notesAndRecommendations ? { notesAndRecommendations: input.notesAndRecommendations } : {})
     });
 
     if (!updated) {

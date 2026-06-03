@@ -35,6 +35,8 @@ cp .env.example .env
 ```
 
 The root `.env.example` documents the shared defaults and service port map. Override `PORT` and `APP_NAME` per service when running them independently.
+MongoDB is expected to be running locally on `mongodb://localhost:27017`.
+Redis is optional during development; the stack continues without it.
 
 `auth-service` also requires `MONGODB_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, and `PASSWORD_RESET_TOKEN_SECRET`.
 `inspection-service` requires `MONGODB_URL` and `JWT_ACCESS_SECRET`.
@@ -48,9 +50,16 @@ npm run dev
 ```
 
 This single command does the full local startup:
-- starts MongoDB and Redis with Docker Compose
+- waits for your local MongoDB instance on `27017`
 - starts `api-gateway`, `auth-service`, `user-service`, `extinguisher-service`, `inspection-service`, `reporting-service`, and `notification-service`
 - waits for the database ports and service health endpoints to respond before declaring the stack ready
+- logs a warning and continues if Redis is not available yet
+
+If you want Redis for future notification/reporting work, run it separately with Docker Compose:
+
+```bash
+docker compose up -d redis
+```
 
 Run a specific service with:
 

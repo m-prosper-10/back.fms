@@ -1,9 +1,16 @@
 import { NextFunction, Request, Response } from "express";
-import bcrypt from "bcrypt";
 import { AppError } from "../../../../../shared/lib/httpError";
 import { toObjectId } from "../../config/database";
-import { changePasswordSchema, roleSchema, statusSchema, updateMeSchema, userIdParamSchema } from "./user.validation";
 import {
+  changePasswordSchema,
+  createUserSchema,
+  roleSchema,
+  statusSchema,
+  updateMeSchema,
+  userIdParamSchema
+} from "./user.validation";
+import {
+  createUser,
   changeUserPassword,
   deleteUser,
   getUserProfile,
@@ -40,6 +47,7 @@ export async function getUserModuleStatus(_req: Request, res: Response) {
       status: "ready",
       endpoints: [
         "GET /api/users/meta",
+        "POST /api/users",
         "GET /api/users/me",
         "PATCH /api/users/me",
         "PATCH /api/users/change-password",
@@ -59,6 +67,32 @@ export async function getUserModuleMeta(_req: Request, res: Response) {
     success: true,
     data: userService.describe()
   });
+}
+
+export async function createUserHandler(req: Request, res: Response, next: NextFunction) {
+  const result = createUserSchema.safeParse(req.body);
+
+  if (!result.success) {
+    next(new AppError(400, "Invalid request payload", result.error.flatten()));
+    return;
+  }
+
+  try {
+    const user = await createUser(result.data);
+
+    if (!user) {
+      next(new AppError(409, "Email already exists"));
+      return;
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "User created successfully",
+      data: user
+    });
+  } catch (error) {
+    next(error);
+  }
 }
 
 export async function getMe(req: Request, res: Response, next: NextFunction) {

@@ -23,7 +23,11 @@ function copyRequestHeaders(req: Request) {
       continue;
     }
 
-    if (hopByHopHeaders.has(key.toLowerCase()) || key.toLowerCase() === "host") {
+    if (
+      hopByHopHeaders.has(key.toLowerCase()) ||
+      key.toLowerCase() === "host" ||
+      key.toLowerCase() === "content-length"
+    ) {
       continue;
     }
 

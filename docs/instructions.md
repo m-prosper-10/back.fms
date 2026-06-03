@@ -20,7 +20,7 @@ Architecture: **microservices monorepo**
 
 ## Project Inventory
 
-- `services/api-gateway/src` is the API entry layer.
+- `services/api-gateway/src` is the API entry layer and reverse-proxy gateway for all service domains.
 - `services/auth-service/src` owns authentication flows and MongoDB session storage.
 - `services/user-service/src` owns user management.
 - `services/extinguisher-service/src` owns extinguisher inventory and status tracking.

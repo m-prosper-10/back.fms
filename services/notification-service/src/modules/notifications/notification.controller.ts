@@ -158,7 +158,7 @@ export async function listByUser(req: Request, res: Response, next: NextFunction
     }
 
     const user = requireUser(req);
-    const data = await notificationService.list(result.data.userId, user.role);
+    const data = await notificationService.listByUser(result.data.userId, user.role);
     res.status(200).json({ success: true, data });
   } catch (error) {
     next(error);

@@ -69,6 +69,11 @@ export const notificationService = {
     return listNotificationsByUser(toObjectId(userId));
   },
 
+  async listByUser(userId: string, role: UserRole) {
+    ensureManagePermission(role);
+    return listNotificationsByUser(toObjectId(userId));
+  },
+
   async getById(id: string, currentUserId: string | undefined, role: UserRole) {
     ensureViewPermission(role);
     const notification = await findNotificationById(toObjectId(id));

@@ -1,6 +1,28 @@
 import { Router } from "express";
-import { getUserModuleStatus } from "./user.controller";
+import { authenticate } from "../../middleware/authenticate";
+import { authorize } from "../../middleware/authorize";
+import {
+  changePassword,
+  deleteUserHandler,
+  getMe,
+  getUserByIdHandler,
+  getUserModuleStatus,
+  listUsersHandler,
+  updateMe,
+  updateUserByIdHandler,
+  updateUserRoleHandler,
+  updateUserStatusHandler
+} from "./user.controller";
 
 export const userRouter = Router();
 
 userRouter.get("/", getUserModuleStatus);
+userRouter.get("/me", authenticate, getMe);
+userRouter.patch("/me", authenticate, updateMe);
+userRouter.patch("/change-password", authenticate, changePassword);
+userRouter.get("/", authenticate, authorize("admin"), listUsersHandler);
+userRouter.get("/:id", authenticate, authorize("admin"), getUserByIdHandler);
+userRouter.patch("/:id", authenticate, authorize("admin"), updateUserByIdHandler);
+userRouter.delete("/:id", authenticate, authorize("admin"), deleteUserHandler);
+userRouter.patch("/:id/role", authenticate, authorize("admin"), updateUserRoleHandler);
+userRouter.patch("/:id/status", authenticate, authorize("admin"), updateUserStatusHandler);

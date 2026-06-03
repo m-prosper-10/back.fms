@@ -17,10 +17,12 @@ import {
   DateRange,
   ExportReport,
   InspectionReport,
+  InspectionDocument,
   InspectionStatus,
   MaintenanceReport,
   ReportPeriod
 } from "./report.types";
+import { Filter } from "mongodb";
 
 function activeMatch() {
   return { isDeleted: { $ne: true } } as const;
@@ -42,13 +44,13 @@ function createDateRangeMatch(field: string, range?: DateRange) {
   return { [field]: match };
 }
 
-function buildOverdueInspectionMatch() {
+function buildOverdueInspectionMatch(): Filter<InspectionDocument> {
   return {
     $or: [
       { status: "overdue" as const },
       { status: "pending" as const, inspectionDate: { $lt: new Date() } }
     ]
-  } as const;
+  };
 }
 
 function flattenToCsvRows(report: DashboardReport & {

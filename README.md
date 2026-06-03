@@ -128,3 +128,26 @@ npm run build
 - `PATCH /api/maintenance/:id`
 - `DELETE /api/maintenance/:id`
 - `GET /api/maintenance/extinguisher/:extinguisherId`
+
+### Reporting Service
+
+- `GET /api/health`
+- `GET /api/reports/meta`
+- `GET /api/reports/dashboard`
+- `GET /api/reports/inventory`
+- `GET /api/reports/inventory/daily`
+- `GET /api/reports/inventory/monthly`
+- `GET /api/reports/inventory/yearly`
+- `GET /api/reports/inspections`
+- `GET /api/reports/inspections/pending`
+- `GET /api/reports/inspections/completed`
+- `GET /api/reports/inspections/overdue`
+- `GET /api/reports/compliance`
+- `GET /api/reports/compliance/expired`
+- `GET /api/reports/compliance/upcoming-expirations`
+- `GET /api/reports/maintenance`
+- `GET /api/reports/maintenance/history`
+- `GET /api/reports/maintenance/frequency`
+- `GET /api/reports/maintenance/recent`
+- `GET /api/reports/export/pdf`
+- `GET /api/reports/export/csv`

@@ -24,7 +24,7 @@ Architecture: **microservices monorepo**
 - `services/user-service/src` owns user management.
 - `services/extinguisher-service/src` owns extinguisher inventory and status tracking.
 - `services/inspection-service/src` owns inspection scheduling, completion, maintenance logging, and overdue inspection detection.
-- `services/reporting-service/src` owns reporting endpoints.
+- `services/reporting-service/src` owns dashboard, inventory, inspection, compliance, maintenance, and export reporting endpoints.
 - `services/notification-service/src` owns notification endpoints.
 - `shared/` holds cross-service helpers and middleware.
 

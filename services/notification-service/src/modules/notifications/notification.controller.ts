@@ -38,7 +38,9 @@ export async function getNotificationModuleStatus(_req: Request, res: Response) 
         "GET /api/notifications/:id",
         "PATCH /api/notifications/:id/read",
         "PATCH /api/notifications/:id",
-        "DELETE /api/notifications/:id"
+        "DELETE /api/notifications/:id",
+        "GET /api/notifications/type/:type",
+        "GET /api/notifications/user/:userId"
       ]
     }
   });

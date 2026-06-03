@@ -64,6 +64,15 @@ export async function listUsers() {
   return users.map(toPublicUser);
 }
 
+export async function listInspectors() {
+  const users = await collections()
+    .users.find({ role: "inspector", status: "active" })
+    .sort({ firstName: 1, lastName: 1 })
+    .toArray();
+
+  return users.map(toPublicUser);
+}
+
 export async function getUserProfile(id: ObjectId) {
   const user = await findUserById(id);
   return user ? toPublicUser(user) : null;

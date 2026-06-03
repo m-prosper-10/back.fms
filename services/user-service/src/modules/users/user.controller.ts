@@ -15,6 +15,7 @@ import {
   deleteUser,
   getUserProfile,
   listUsers,
+  listInspectors,
   updateUserProfile,
   updateUserRole,
   updateUserStatus
@@ -48,6 +49,7 @@ export async function getUserModuleStatus(_req: Request, res: Response) {
       endpoints: [
         "GET /api/users/meta",
         "POST /api/users",
+        "GET /api/users/inspectors",
         "GET /api/users/me",
         "PATCH /api/users/me",
         "PATCH /api/users/change-password",
@@ -177,6 +179,18 @@ export async function changePassword(req: Request, res: Response, next: NextFunc
 export async function listUsersHandler(_req: Request, res: Response, next: NextFunction) {
   try {
     const data = await listUsers();
+    res.status(200).json({
+      success: true,
+      data
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function listInspectorsHandler(_req: Request, res: Response, next: NextFunction) {
+  try {
+    const data = await listInspectors();
     res.status(200).json({
       success: true,
       data

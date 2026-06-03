@@ -45,10 +45,10 @@ function createDateRangeMatch(field: string, range?: DateRange) {
 function buildOverdueInspectionMatch() {
   return {
     $or: [
-      { status: "overdue" },
-      { status: "pending", inspectionDate: { $lt: new Date() } }
+      { status: "overdue" as const },
+      { status: "pending" as const, inspectionDate: { $lt: new Date() } }
     ]
-  };
+  } as const;
 }
 
 function flattenToCsvRows(report: DashboardReport & {

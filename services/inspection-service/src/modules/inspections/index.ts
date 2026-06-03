@@ -8,6 +8,7 @@ import {
   createMaintenance,
   getById,
   getInspectionModuleStatus,
+  getMaintenanceModuleStatus,
   getMaintenanceById,
   list,
   listMaintenance,

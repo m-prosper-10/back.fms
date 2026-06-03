@@ -15,6 +15,23 @@ export interface OpenApiEndpoint {
   description?: string;
   tags: string[];
   secured?: boolean;
+  parameters?: Array<{
+    name: string;
+    in: "path" | "query" | "header";
+    required?: boolean;
+    description?: string;
+    schema: Record<string, unknown>;
+  }>;
+  requestBody?: {
+    required?: boolean;
+    description?: string;
+    content: {
+      "application/json": {
+        schema: Record<string, unknown>;
+        example?: unknown;
+      };
+    };
+  };
 }
 
 export interface OpenApiSpecInput {
@@ -57,6 +74,8 @@ export interface OpenApiDocument {
           description?: string;
           tags: string[];
           security?: Array<{ bearerAuth: [] }>;
+          parameters?: OpenApiEndpoint["parameters"];
+          requestBody?: OpenApiEndpoint["requestBody"];
           responses: Record<string, { description: string }>;
         }
       >
@@ -80,6 +99,8 @@ export function buildOpenApiDocument(input: OpenApiSpecInput): OpenApiDocument {
       description: endpoint.description,
       tags: endpoint.tags,
       ...(endpoint.secured ? { security: [{ bearerAuth: [] }] } : {}),
+      ...(endpoint.parameters ? { parameters: endpoint.parameters } : {}),
+      ...(endpoint.requestBody ? { requestBody: endpoint.requestBody } : {}),
       responses: {
         "200": { description: "Success" },
         "201": { description: "Created" },

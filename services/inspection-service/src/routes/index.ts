@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getHealth } from "../controllers/healthController";
 import { inspectionRouter } from "../modules/inspections";
-import { maintenanceRouter } from "../modules/maintenance";
+import { maintenanceRouter } from "../modules/inspections";
 
 export const inspectionServiceRouter = Router();
 

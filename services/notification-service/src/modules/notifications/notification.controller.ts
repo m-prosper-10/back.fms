@@ -66,6 +66,25 @@ export async function send(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+export async function internalSend(req: Request, res: Response, next: NextFunction) {
+  const result = createNotificationSchema.safeParse(req.body);
+  if (!result.success) {
+    next(new AppError(400, "Invalid request payload", result.error.flatten()));
+    return;
+  }
+
+  try {
+    const data = await notificationService.send(result.data, "admin");
+    res.status(201).json({
+      success: true,
+      message: "Notification sent successfully",
+      data
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function list(req: Request, res: Response, next: NextFunction) {
   try {
     const user = requireUser(req);

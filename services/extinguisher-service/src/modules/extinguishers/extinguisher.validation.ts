@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ObjectId } from "mongodb";
 
 const types = ["Water", "CO2", "Foam", "Dry Chemical"] as const;
 const sizes = ["1.5 lb", "5 lb", "9 lb", "12 lb"] as const;
@@ -51,5 +52,5 @@ export const locationFilterSchema = z.object({
 });
 
 export const idParamSchema = z.object({
-  id: z.string().min(1, "Extinguisher id is required")
+  id: z.string().refine((value) => ObjectId.isValid(value), "Extinguisher id must be a valid ObjectId")
 });

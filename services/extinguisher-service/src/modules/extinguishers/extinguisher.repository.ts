@@ -13,6 +13,7 @@ function collections() {
 function toPublicExtinguisher(doc: ExtinguisherDocument): PublicExtinguisher {
   return {
     id: doc._id.toHexString(),
+    _id: doc._id.toHexString(),
     serialNumber: doc.serialNumber,
     location: doc.location,
     type: doc.type,

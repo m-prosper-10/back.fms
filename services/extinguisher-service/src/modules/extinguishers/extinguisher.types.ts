@@ -25,6 +25,7 @@ export interface ExtinguisherDocument {
 
 export interface PublicExtinguisher {
   id: string;
+  _id: string;
   serialNumber: string;
   location: string;
   type: ExtinguisherType;

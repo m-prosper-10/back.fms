@@ -65,7 +65,7 @@ function toMaintenanceEntry(doc: MaintenanceDocument): MaintenanceReportEntry {
   };
 }
 
-export function buildDateRangeFilter(field: string, range?: DateRange): Filter<Document> {
+export function buildDateRangeFilter(field: string, range?: DateRange): Filter<Record<string, unknown>> {
   if (!range?.from && !range?.to) {
     return {};
   }
@@ -78,7 +78,7 @@ export function buildDateRangeFilter(field: string, range?: DateRange): Filter<D
     filter.$lte = range.to;
   }
 
-  return { [field]: filter } as Filter<Document>;
+  return { [field]: filter } as Filter<Record<string, unknown>>;
 }
 
 export async function countExtinguishers(match: Filter<ExtinguisherDocument> = {}) {

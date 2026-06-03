@@ -135,6 +135,7 @@ export interface ComplianceReport {
   expiringWithin30Days: number;
   compliantExtinguishers: number;
   overdueInspections: number;
+  expiredExtinguishersList: ExtinguisherReportEntry[];
   upcomingExpirations: ExtinguisherReportEntry[];
 }
 

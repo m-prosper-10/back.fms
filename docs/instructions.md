@@ -3,6 +3,7 @@
 Project: **fms_backend**
 Stack: **node-ts-express**
 Profile: **production**
+Architecture: **microservices monorepo**
 
 ## Setup Commands
 
@@ -18,11 +19,14 @@ Profile: **production**
 
 ## Project Inventory
 
-- `src/app.ts` wires middleware and API routes.
-- `src/server.ts` boots the application.
-- `src/controllers/` owns response-facing request handlers.
-- `src/services/` owns business logic.
-- `src/config/` holds environment and data-store configuration.
+- `services/api-gateway/src` is the API entry layer.
+- `services/auth-service/src` owns authentication flows.
+- `services/user-service/src` owns user management.
+- `services/extinguisher-service/src` owns extinguisher inventory.
+- `services/inspection-service/src` owns inspections and maintenance.
+- `services/reporting-service/src` owns reporting endpoints.
+- `services/notification-service/src` owns notification endpoints.
+- `shared/` holds cross-service helpers and middleware.
 
 ## Change Protocol
 

@@ -145,9 +145,15 @@ export const extinguisherService = {
       }
     }
 
+    const nextInstallationDate = input.installationDate ?? extinguisher.installationDate;
     const nextExpiryDate = input.expiryDate ?? extinguisher.expiryDate;
-    const nextStatus =
-      input.status ?? deriveStatus(nextExpiryDate, extinguisher.status);
+
+    if (nextExpiryDate <= nextInstallationDate) {
+      throw new AppError(400, "Expiry date must be after installation date");
+    }
+
+    const requestedStatus = input.status ?? extinguisher.status;
+    const nextStatus = deriveStatus(nextExpiryDate, requestedStatus);
 
     const updated = await updateExtinguisher(toObjectId(id), {
       ...input,

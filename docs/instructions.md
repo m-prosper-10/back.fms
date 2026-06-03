@@ -12,7 +12,8 @@ Architecture: **microservices monorepo**
 ## Development / Execution
 
 - npm run dev
-- `npm run dev` starts the full local stack: Docker Compose infrastructure plus all services on their ports, then waits for health checks.
+- `npm run dev` starts the full local stack against your local MongoDB, then launches all services on their ports and waits for health checks.
+- Redis is optional during startup; missing Redis does not block the stack from becoming ready.
 
 ## Verification
 

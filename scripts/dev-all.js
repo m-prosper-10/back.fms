@@ -5,8 +5,7 @@ const fs = require("fs");
 
 const ROOT = path.resolve(__dirname, "..");
 const PORTS = [
-  { host: "127.0.0.1", port: 27017, name: "mongodb" },
-  { host: "127.0.0.1", port: 6379, name: "redis" }
+  { host: "127.0.0.1", port: 27017, name: "mongodb" }
 ];
 
 const SERVICES = [
@@ -93,17 +92,15 @@ function waitForUrl(url, timeoutMs = 120_000) {
 }
 
 async function main() {
-  if (!fs.existsSync(path.join(ROOT, "docker-compose.yml"))) {
-    throw new Error("docker-compose.yml is missing");
-  }
-
-  log("Starting infrastructure with Docker Compose...");
-  run("docker", ["compose", "up", "-d", "mongodb", "redis"]);
-
   for (const port of PORTS) {
     log(`Waiting for ${port.name} on ${port.host}:${port.port}...`);
     await waitForPort(port);
   }
+
+  const redisPort = { host: "127.0.0.1", port: 6379, name: "redis" };
+  waitForPort(redisPort, 1000).catch(() => {
+    log("Redis is not available yet; continuing without blocking startup.");
+  });
 
   log("Starting services...");
   for (const script of SERVICES) {

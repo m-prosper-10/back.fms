@@ -34,6 +34,8 @@ npm install
 cp .env.example .env
 ```
 
+The root `.env.example` documents the shared defaults and service port map. Override `PORT` and `APP_NAME` per service when running them independently.
+
 ## Development
 
 ```bash

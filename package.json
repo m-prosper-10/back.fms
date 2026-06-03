@@ -1,7 +1,8 @@
 {
   "name": "fms_backend",
   "version": "1.0.0",
-  "description": "Production baseline General business API",
+  "description": "Production baseline microservices monorepo for a general business API",
+  "private": true,
   "main": "dist/services/api-gateway/src/server.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",

@@ -3,8 +3,10 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import { env } from "./config/env";
+import { apiGatewayOpenApiDocument } from "./docs/openapi";
 import { errorHandler } from "./middleware/errorHandler";
 import { notFoundHandler } from "./middleware/notFound";
+import { createOpenApiRouter } from "../../../shared/openapi/openapi";
 import { apiRouter } from "./routes";
 import { metricsRouter } from "./routes/metrics";
 
@@ -31,6 +33,7 @@ export function createApp() {
     });
   });
 
+  app.use("/", createOpenApiRouter(apiGatewayOpenApiDocument));
   app.use("/api", apiRouter);
   app.use("/metrics", metricsRouter);
   app.use(notFoundHandler);

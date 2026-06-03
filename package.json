@@ -15,6 +15,7 @@
     "dev:inspection-service": "TS_NODE_FILES=true ts-node services/inspection-service/src/server.ts",
     "dev:reporting-service": "TS_NODE_FILES=true ts-node services/reporting-service/src/server.ts",
     "dev:notification-service": "TS_NODE_FILES=true ts-node services/notification-service/src/server.ts",
+    "seed:users": "TS_NODE_FILES=true ts-node scripts/seed-users.ts",
     "start": "node dist/services/api-gateway/src/server.js",
     "test": "jest --runInBand",
     "test:watch": "jest --watch",

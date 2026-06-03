@@ -15,7 +15,7 @@ import {
 
 export const notificationRouter = Router();
 
-notificationRouter.get("/meta", authenticate, authorize("admin", "inspector"), getNotificationModuleStatus);
+notificationRouter.get("/meta", authenticate, authorize("admin", "inspector", "user"), getNotificationModuleStatus);
 notificationRouter.post("/send", authenticate, authorize("admin"), send);
 notificationRouter.get("/", authenticate, list);
 notificationRouter.get("/type/:type", authenticate, listByType);

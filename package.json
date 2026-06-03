@@ -6,7 +6,8 @@
   "main": "dist/services/api-gateway/src/server.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "ts-node services/api-gateway/src/server.ts",
+    "dev": "node scripts/dev-all.js",
+    "dev:all": "node scripts/dev-all.js",
     "dev:api-gateway": "ts-node services/api-gateway/src/server.ts",
     "dev:auth-service": "ts-node services/auth-service/src/server.ts",
     "dev:user-service": "ts-node services/user-service/src/server.ts",

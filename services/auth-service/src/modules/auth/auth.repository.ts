@@ -49,7 +49,7 @@ export async function updateUserPassword(id: ObjectId, passwordHash: string) {
   );
 }
 
-export async function createRefreshToken(token: Omit<RefreshTokenDocument, "_id">) {
+export async function storeRefreshToken(token: Omit<RefreshTokenDocument, "_id">) {
   await collections().refreshTokens.insertOne({
     ...token,
     _id: new ObjectId()
@@ -84,7 +84,7 @@ export async function revokeAllRefreshTokensForUser(userId: ObjectId) {
   );
 }
 
-export async function createPasswordResetToken(token: Omit<PasswordResetTokenDocument, "_id">) {
+export async function storePasswordResetToken(token: Omit<PasswordResetTokenDocument, "_id">) {
   await collections().passwordResetTokens.insertOne({
     ...token,
     _id: new ObjectId()

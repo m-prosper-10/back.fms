@@ -35,11 +35,17 @@ export async function connectAuthDatabase() {
       .collection<RefreshTokenDocument>("refresh_tokens")
       .createIndex({ userId: 1, revokedAt: 1, expiresAt: 1 }),
     database
+      .collection<RefreshTokenDocument>("refresh_tokens")
+      .createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 }),
+    database
       .collection<PasswordResetTokenDocument>("password_reset_tokens")
       .createIndex({ tokenHash: 1 }, { unique: true }),
     database
       .collection<PasswordResetTokenDocument>("password_reset_tokens")
-      .createIndex({ userId: 1, usedAt: 1, revokedAt: 1, expiresAt: 1 })
+      .createIndex({ userId: 1, usedAt: 1, revokedAt: 1, expiresAt: 1 }),
+    database
+      .collection<PasswordResetTokenDocument>("password_reset_tokens")
+      .createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
   ]);
 
   logger.info(`Connected to MongoDB database ${database.databaseName}`);

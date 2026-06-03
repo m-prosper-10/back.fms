@@ -252,7 +252,7 @@ export const inspectionService = {
     }
 
     void pushNotification({
-      userId: inspection.scheduledBy.toHexString(),
+      userId: String(inspection.scheduledBy),
       title: "Inspection completed",
       message: `Inspection ${id} has been completed with result ${input.result}.`,
       type: "inspection"

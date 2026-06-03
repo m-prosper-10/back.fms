@@ -21,10 +21,13 @@ export function createApp() {
   app.use(morgan(env.nodeEnv === "production" ? "combined" : "dev"));
   app.get("/", (_req, res) => {
     res.json({
-      service: env.appName,
-      status: "ok",
-      stack: "node-ts-express",
-      apiStyle: "rest"
+      success: true,
+      data: {
+        service: env.appName,
+        status: "ok",
+        stack: "node-ts-express",
+        apiStyle: "rest"
+      }
     });
   });
 

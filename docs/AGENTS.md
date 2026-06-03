@@ -176,6 +176,12 @@ Keep controllers thin and services focused on business logic.
 Preserve route versioning and centralized middleware wiring.
 Update env setup, config, and tests alongside behavior changes.
 
+### Monorepo Rule
+
+This repository is a microservices monorepo.
+Keep each service isolated under `services/`.
+Put cross-service utilities in `shared/`.
+
 ### bcrypt Rules
 
 Use bcrypt only for password hashing.

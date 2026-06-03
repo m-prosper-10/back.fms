@@ -10,9 +10,5 @@ export const configuredDatabases = [
 ] as const;
 
 export function describeDatabaseSetup() {
-  if (configuredDatabases.length === 0) {
-    return "No database selected";
-  }
-
   return configuredDatabases.map((database) => database.name).join(", ");
 }

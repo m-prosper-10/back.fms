@@ -60,7 +60,7 @@ export function createRefreshToken(user: AuthenticatedUser) {
       expiresIn: env.raw.REFRESH_TOKEN_EXPIRES_IN
     }
   );
-  const decoded = jwt.decode(token) as RefreshTokenPayload | null;
+  const decoded = jwt.decode(token) as JwtPayload | null;
 
   return {
     token,
@@ -84,7 +84,7 @@ export function createResetToken(user: AuthenticatedUser) {
       expiresIn: env.raw.PASSWORD_RESET_TOKEN_EXPIRES_IN
     }
   );
-  const decoded = jwt.decode(token) as ResetTokenPayload | null;
+  const decoded = jwt.decode(token) as JwtPayload | null;
 
   return {
     token,

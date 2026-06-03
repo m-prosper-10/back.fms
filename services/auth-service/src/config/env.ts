@@ -8,7 +8,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(4001),
   APP_NAME: z.string().min(1).default("auth-service"),
   ALLOWED_ORIGINS: z.string().default("http://localhost:5173"),
-  MONGODB_URL: z.string().min(1),
+  MONGODB_URL: z.string().min(1).default("mongodb://localhost:27017/fms_backend"),
   JWT_ACCESS_SECRET: z.string().min(1),
   JWT_REFRESH_SECRET: z.string().min(1),
   PASSWORD_RESET_TOKEN_SECRET: z.string().min(1),

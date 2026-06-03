@@ -13,6 +13,6 @@
     "moduleResolution": "node",
     "types": ["node", "jest"]
   },
-  "include": ["services/**/*.ts", "shared/**/*.ts"],
+  "include": ["services/**/*.ts", "shared/**/*"],
   "exclude": ["node_modules", "dist", "**/__tests__/**"]
 }

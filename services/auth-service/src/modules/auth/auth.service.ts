@@ -75,6 +75,12 @@ function toPublicUser(user: {
   };
 }
 
+function ensureActiveAccount(status: UserStatus) {
+  if (status !== "active") {
+    throw new AppError(403, "Account is not active");
+  }
+}
+
 async function issueTokens(user: AuthenticatedUser): Promise<TokenPair> {
   const accessToken = createAccessToken(user);
   const refreshTokenData = buildRefreshToken(user);
@@ -139,6 +145,8 @@ export const authService = {
       throw new AppError(401, "Invalid email or password");
     }
 
+    ensureActiveAccount(user.status);
+
     const isValidPassword = await bcrypt.compare(input.password, user.passwordHash);
 
     if (!isValidPassword) {
@@ -181,6 +189,8 @@ export const authService = {
       throw new AppError(404, "User not found");
     }
 
+    ensureActiveAccount(user.status);
+
     await revokeRefreshToken(tokenHash);
 
     const publicUser = toPublicUser(user);
@@ -219,6 +229,8 @@ export const authService = {
     if (!user) {
       throw new AppError(401, "Invalid access token");
     }
+
+    ensureActiveAccount(user.status);
 
     const publicUser = toPublicUser(user);
 

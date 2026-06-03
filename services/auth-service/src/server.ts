@@ -1,7 +1,7 @@
 import { createApp } from "./app";
 import { env } from "./config/env";
 import { connectAuthDatabase } from "./config/database";
-import { logger } from "../../../../shared/lib/logger";
+import { logger } from "../../../shared/lib/logger";
 
 async function bootstrap() {
   await connectAuthDatabase();

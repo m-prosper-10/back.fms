@@ -30,6 +30,15 @@ export const statusSchema = z.object({
   status: z.enum(["active", "inactive", "suspended"])
 });
 
+export const createUserSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Invalid email address"),
+  password: passwordSchema,
+  role: z.enum(["admin", "inspector", "user"]),
+  status: z.enum(["active", "inactive", "suspended"]).default("active")
+});
+
 export const userIdParamSchema = z.object({
   id: z.string().min(1, "User id is required")
 });

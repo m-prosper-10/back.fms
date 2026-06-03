@@ -29,6 +29,36 @@ export async function findUserByEmail(email: string) {
   return collections().users.findOne({ email });
 }
 
+export async function createUser(
+  payload: Omit<UserDocument, "_id" | "createdAt" | "updatedAt" | "lastLoginAt" | "passwordHash"> & {
+    password: string;
+  }
+) {
+  const existingUser = await findUserByEmail(payload.email);
+
+  if (existingUser) {
+    return null;
+  }
+
+  const passwordHash = await bcrypt.hash(payload.password, 12);
+  const now = new Date();
+
+  const result = await collections().users.insertOne({
+    _id: new ObjectId(),
+    firstName: payload.firstName.trim(),
+    lastName: payload.lastName.trim(),
+    email: payload.email.toLowerCase().trim(),
+    passwordHash,
+    role: payload.role,
+    status: payload.status,
+    createdAt: now,
+    updatedAt: now,
+    lastLoginAt: null
+  });
+
+  return result.insertedId ? findUserById(result.insertedId) : null;
+}
+
 export async function listUsers() {
   const users = await collections().users.find({}).sort({ createdAt: -1 }).toArray();
   return users.map(toPublicUser);
